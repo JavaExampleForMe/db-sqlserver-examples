@@ -16,8 +16,7 @@ import java.util.List;
 @Entity
 public class Policy extends BaseEntity {
 
-    public Policy(int policyId, int mediaTypes, int deletionTypes) {
-        this.policyId = policyId;
+    public Policy(int mediaTypes, int deletionTypes) {
         this.mediaTypes = mediaTypes;
         this.deletionTypes = deletionTypes;
     }
@@ -26,6 +25,8 @@ public class Policy extends BaseEntity {
     public Policy() {
     }
 
+    @Column(name = "policyId", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int policyId;
 

@@ -1,5 +1,5 @@
 CREATE TABLE [dbo].[Policy](
-	[policyId] [int] NOT NULL,
+	[policyId] [int] NOT NULL IDENTITY,
 	[mediaTypes] [int] NOT NULL,
 	[deletionTypes] [int] NOT NULL,
 	[creationDate] [datetime] NOT NULL,

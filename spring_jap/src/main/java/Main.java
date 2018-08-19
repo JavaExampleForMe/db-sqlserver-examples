@@ -18,7 +18,7 @@ public class Main {
 
         DeletionRepositoriesContainer deletionRepositoriesContainer = context.getBean(DeletionRepositoriesContainer.class);
 
-        Policy policy1 = new Policy(1,1,1);
+        Policy policy1 = new Policy(1,1);
 
         deletionRepositoriesContainer.getPolicyRepository().createPolicy(policy1);
 

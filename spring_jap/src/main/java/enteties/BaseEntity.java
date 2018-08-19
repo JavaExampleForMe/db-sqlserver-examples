@@ -14,7 +14,9 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseEntity {
 
+    @Column(name = "modifyDate", columnDefinition = "DATETIME", nullable = false)
     protected LocalDateTime modifyDate;
+    @Column(name = "creationDate", columnDefinition = "DATETIME", nullable = false)
     protected LocalDateTime creationDate;
 
     @PrePersist
