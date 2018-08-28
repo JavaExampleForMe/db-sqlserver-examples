@@ -1,6 +1,7 @@
 package config;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import org.hibernate.dialect.SQLServer2012Dialect;
 import org.springframework.context.annotation.*;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -14,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+import static org.hibernate.cfg.AvailableSettings.*;
 
 @Configuration
 @EnableTransactionManagement
@@ -56,8 +58,11 @@ public class ConfigurationDemo {
             JpaVendorAdapter jpaVendorAdapter) {
 
         Properties properties = new Properties();
-        properties.setProperty("hibernate.formate_sql", String.valueOf(true));
-
+        // The following two sections are needed to see hibernate values in the log
+        properties.setProperty(FORMAT_SQL, String.valueOf(true));
+        properties.setProperty(SHOW_SQL, String.valueOf(true));
+//        properties.setProperty(USE_SQL_COMMENTS, String.valueOf(true));
+        properties.setProperty(DIALECT, SQLServer2012Dialect.class.getTypeName());
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean =
                 new LocalContainerEntityManagerFactoryBean();
 
@@ -65,6 +70,7 @@ public class ConfigurationDemo {
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         localContainerEntityManagerFactoryBean.setJpaProperties(properties);
         localContainerEntityManagerFactoryBean.setPackagesToScan("enteties");
+
         return localContainerEntityManagerFactoryBean;
     }
 
