@@ -27,7 +27,7 @@ CREATE TABLE [dbo].[Line](
 ))
 GO
 
-ALTER TABLE [dbo].[Line] ADD  CONSTRAINT [DF_Job_creationDate]  DEFAULT (getutcdate()) FOR [creationDate]
+ALTER TABLE [dbo].[Line] ADD  CONSTRAINT [DF_Line_creationDate]  DEFAULT (getutcdate()) FOR [creationDate]
 GO
 
 ALTER TABLE [dbo].[Line] ADD  CONSTRAINT [DF_Job_modifyDate]  DEFAULT (getutcdate()) FOR [modifyDate]

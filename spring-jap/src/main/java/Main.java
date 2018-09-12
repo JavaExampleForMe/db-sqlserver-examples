@@ -27,7 +27,7 @@ public class Main {
         Line line1 = new Line(policy, LineStatus.INQUEUE);
         deletionRepositoriesContainer.getLineRepository().createNewLine(line1);
         deletionRepositoriesContainer.getLineRepository().updateStatusForLastLine(LineStatus.COMPLETED);
-        List<Line> lines = deletionRepositoriesContainer.getLineRepository().getLines(1);
+        List<Line> lines = deletionRepositoriesContainer.getLineRepository().getLines(1, 100, 1);
 
 
         System.out.println("test");
