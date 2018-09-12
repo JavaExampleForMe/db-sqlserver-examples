@@ -11,3 +11,4 @@ This repository contains examples of SQLServer manipulation with Java.
 ### Getting Started
 1. Change the connection in the config file
 2. Execute the script file under resource folder
+"# streams-examples" 
