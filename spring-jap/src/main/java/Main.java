@@ -24,10 +24,10 @@ public class Main {
 
         Policy policy = deletionRepositoriesContainer.getPolicyRepository().getPolicy(1);
 
-        Line line1 = new Line(policy, LineStatus.INQUEUE);
+        Line line1 = new Line(policy, LineStatus.INQUEUE, "PEGOT" , "BLUE");
         deletionRepositoriesContainer.getLineRepository().createNewLine(line1);
         deletionRepositoriesContainer.getLineRepository().updateStatusForLastLine(LineStatus.COMPLETED);
-        List<Line> lines = deletionRepositoriesContainer.getLineRepository().getLines(1, 100, 1);
+        List<Line> lines = deletionRepositoriesContainer.getLineRepository().getLines(policy, 100, 1);
 
 
         System.out.println("test");
