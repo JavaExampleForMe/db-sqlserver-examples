@@ -1,11 +1,11 @@
 import config.ConfigurationDemo;
 import enteties.Line;
-import enteties.Policy;
+import enteties.Reservation;
 import enums.LineStatus;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Import;
-import repositories.DeletionRepositoriesContainer;
+import repositories.RepositoriesContainer;
 
 import java.util.List;
 
@@ -16,22 +16,22 @@ public class Main {
 
         ApplicationContext context = new AnnotationConfigApplicationContext(ConfigurationDemo.class);
 
-        DeletionRepositoriesContainer deletionRepositoriesContainer = context.getBean(DeletionRepositoriesContainer.class);
+        RepositoriesContainer repositoriesContainer = context.getBean(RepositoriesContainer.class);
 
-        Policy policy1 = new Policy(1,1);
+        Reservation reservation1 = new Reservation(1,1);
 
-        deletionRepositoriesContainer.getPolicyRepository().createPolicy(policy1);
+        repositoriesContainer.getReservationRepository().createReservation(reservation1);
 
-        Policy policy = deletionRepositoriesContainer.getPolicyRepository().getPolicy(1);
+        Reservation reservation = repositoriesContainer.getReservationRepository().getReservation(1);
 
-        Line line1 = new Line(policy, LineStatus.INQUEUE, "PEGOT" , "BLUE");
-        deletionRepositoriesContainer.getLineRepository().createNewLine(line1);
-        deletionRepositoriesContainer.getLineRepository().updateStatusForLastLine(LineStatus.COMPLETED);
-        List<Line> lines = deletionRepositoriesContainer.getLineRepository().getLines(policy, 100, 1);
-
+        Line line1 = new Line(reservation, LineStatus.INQUEUE, "PEGOT" , "BLUE");
+        repositoriesContainer.getLineRepository().createNewLine(line1);
+        repositoriesContainer.getLineRepository().updateStatusForLastLine(LineStatus.COMPLETED);
+        List<Line> lines = repositoriesContainer.getLineRepository().getLines(reservation, 100, 1);
 
         System.out.println("test");
 
+ 
     }
 
 

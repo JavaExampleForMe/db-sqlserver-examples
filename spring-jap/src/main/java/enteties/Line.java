@@ -33,9 +33,9 @@ public class Line extends BaseEntity  {
     }
 
 
-    public Line(Policy policy, LineStatus lineStatus, String model, String color) {
+    public Line(Reservation reservation, LineStatus lineStatus, String model, String color) {
         linekey = new LineKey();
-        linekey.setPolicy(policy);
+        linekey.setReservation(reservation);
         this.lineStatus = lineStatus.getValue();
         this.model = model;
         this.color = color;

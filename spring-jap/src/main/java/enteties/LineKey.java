@@ -17,9 +17,9 @@ import java.io.Serializable;
 public class LineKey implements Serializable {
 
 
-    public LineKey(int lineId, Policy policy) {
+    public LineKey(int lineId, Reservation reservation) {
         this.lineId = lineId;
-        this.policy = policy;
+        this.reservation = reservation;
     }
 
     public LineKey() {
@@ -27,8 +27,8 @@ public class LineKey implements Serializable {
 
     private int lineId;
 
-    @JoinColumn(name = "policyId", referencedColumnName = "policyId")
+    @JoinColumn(name = "reservationId", referencedColumnName = "reservationId")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Policy policy;
+    private Reservation reservation;
 
 }

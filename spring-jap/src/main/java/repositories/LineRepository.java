@@ -1,16 +1,14 @@
 package repositories;
 
 import enteties.Line;
-import enteties.Policy;
+import enteties.Reservation;
 import enums.LineStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +44,7 @@ public class LineRepository {
 
 
     public List<Line> getAllLines() {
-        return entityManager.createQuery("FROM Job", Line.class)
+        return entityManager.createQuery("FROM Line", Line.class)
                 .getResultList();
     }
 
@@ -58,25 +56,25 @@ public class LineRepository {
 
     @Transactional
     public Line createNewLine(Line line) {
-        int newId = getNewId(line.getPolicy().getPolicyId());
+        int newId = getNewId(line.getReservation().getReservationId());
         line.setLineId(newId);
         entityManager.persist(line);
         return line;
     }
 
 
-    public Integer getNewId(Integer policyId) {
-        String sql = "SELECT MAX(j.linekey.lineId)+1 FROM Line j WHERE j.linekey.policy.policyId=:policyId";
+    public Integer getNewId(Integer reservationId) {
+        String sql = "SELECT MAX(j.linekey.lineId)+1 FROM Line j WHERE j.linekey.reservation.reservationId=:reservationId";
         Query query = entityManager.createQuery(sql);
-        query.setParameter("policyId", policyId);
+        query.setParameter("reservationId", reservationId);
         Object queryResult = query.getSingleResult();
         return queryResult == null ? 1 : (Integer) queryResult;
     }
 
-    public List<Line> getLines(Policy policy, int pageSize, int pageNumber) {
-        String sql = "FROM Line j WHERE j.linekey.policy.policyId = :policyId ORDER BY j.linekey.lineId";
+    public List<Line> getLines(Reservation reservation, int pageSize, int pageNumber) {
+        String sql = "FROM Line j WHERE j.linekey.reservation.reservationId = :reservationId ORDER BY j.linekey.lineId";
         Query query = entityManager.createQuery(sql, Line.class);
-        query.setParameter("policyId", policy.getPolicyId());
+        query.setParameter("reservationId", reservation.getReservationId());
         query.setFirstResult((pageNumber -1)*pageSize);
         query.setMaxResults(pageSize);
 

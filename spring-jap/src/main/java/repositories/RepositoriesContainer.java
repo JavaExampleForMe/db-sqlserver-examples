@@ -6,16 +6,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Getter
-public class DeletionRepositoriesContainer {
+public class RepositoriesContainer {
 
 
     private LineRepository lineRepository;
-    private PolicyRepository policyRepository;
+    private ReservationRepository reservationRepository;
 
     @Autowired
-    public DeletionRepositoriesContainer(LineRepository lineRepo, PolicyRepository policyRepo) {
+    public RepositoriesContainer(LineRepository lineRepo, ReservationRepository reservationRepository) {
         this.lineRepository = lineRepo;
-        this.policyRepository = policyRepo;
+        this.reservationRepository = reservationRepository;
     }
 
 

@@ -1,28 +1,30 @@
-CREATE TABLE [dbo].[Policy](
-	[policyId] [int] NOT NULL IDENTITY,
+CREATE TABLE [dbo].[Reservation](
+	[reservationId] [int] NOT NULL IDENTITY,
 	[mediaTypes] [int] NOT NULL,
-	[deletionTypes] [int] NOT NULL,
+	[orderTypes] [int] NOT NULL,
 	[creationDate] [datetime] NOT NULL,
 	[modifyDate] [datetime] NOT NULL,
- CONSTRAINT [PK_Policy] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_Reservation] PRIMARY KEY CLUSTERED
 (
-	[policyId] ASC
+	[reservationId] ASC
 ))
 GO
 
-ALTER TABLE [dbo].[Policy] ADD  CONSTRAINT [DF_Policy_modifyDate]  DEFAULT (getutcdate()) FOR [modifyDate]
+ALTER TABLE [dbo].[Reservation] ADD  CONSTRAINT [DF_Reservation_modifyDate]  DEFAULT (getutcdate()) FOR [modifyDate]
 GO
 
 
 CREATE TABLE [dbo].[Line](
-	[policyId] [int] NOT NULL,
+	[reservationId] [int] NOT NULL,
 	[lineId] [int] NOT NULL,
 	[lineStatus] [tinyint] NOT NULL,
+	[color] [varchar](50)  NULL,
+	[model] [varchar](50)  NULL,
 	[creationDate] [datetime] NOT NULL,
 	[modifyDate] [datetime] NOT NULL,
  CONSTRAINT [PK_Line] PRIMARY KEY CLUSTERED
 (
-	[policyId] ASC,
+	[reservationId] ASC,
 	[lineId] ASC
 ))
 GO
@@ -30,11 +32,11 @@ GO
 ALTER TABLE [dbo].[Line] ADD  CONSTRAINT [DF_Line_creationDate]  DEFAULT (getutcdate()) FOR [creationDate]
 GO
 
-ALTER TABLE [dbo].[Line] ADD  CONSTRAINT [DF_Job_modifyDate]  DEFAULT (getutcdate()) FOR [modifyDate]
+ALTER TABLE [dbo].[Line] ADD  CONSTRAINT [DF_Line_modifyDate]  DEFAULT (getutcdate()) FOR [modifyDate]
 GO
 
-ALTER TABLE [dbo].[Line]  WITH CHECK ADD  CONSTRAINT [FK_Job_Policy] FOREIGN KEY([policyId])
-REFERENCES [dbo].[Policy] ([policyId])
+ALTER TABLE [dbo].[Line]  WITH CHECK ADD  CONSTRAINT [FK_Line_Reservation] FOREIGN KEY([reservationId])
+REFERENCES [dbo].[Reservation] ([reservationId])
 ON DELETE CASCADE
 GO
 
