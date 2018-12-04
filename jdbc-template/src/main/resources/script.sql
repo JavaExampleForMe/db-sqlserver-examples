@@ -1,3 +1,5 @@
+use [idatest]
+GO
 CREATE TYPE [dbo].[tblAType] AS TABLE(
 	[id] [int] NOT NULL,
 	[name] [nvarchar](10) NOT NULL,
@@ -46,4 +48,13 @@ CREATE TABLE [dbo].[Child](
 GO
 
 ALTER TABLE [dbo].[Child] ADD  CONSTRAINT [DF_Child_creationDate]  DEFAULT (getutcdate()) FOR [creationDate]
+GO
+
+CREATE TABLE [dbo].[TestCsv](
+	[id] [int] NOT NULL,
+	[name] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_TestCsv] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+))
 GO

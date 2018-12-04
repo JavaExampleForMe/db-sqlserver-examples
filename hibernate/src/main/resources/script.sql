@@ -1,3 +1,5 @@
+use [idatest]
+GO
 CREATE FUNCTION [dbo].[fn_intlist_to_tbl] (@list nvarchar(MAX))
    RETURNS @tbl TABLE (listpos int IDENTITY(1, 1) NOT NULL,
                        number  bigint NOT NULL) AS
