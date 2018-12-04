@@ -1,3 +1,6 @@
+USE [idatest]
+GO
+
 CREATE TABLE [dbo].[Reservation](
 	[reservationId] [int] NOT NULL IDENTITY,
 	[mediaTypes] [int] NOT NULL,

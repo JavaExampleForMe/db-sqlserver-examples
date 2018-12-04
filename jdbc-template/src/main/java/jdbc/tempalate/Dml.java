@@ -39,8 +39,7 @@ public class Dml {
     }
 
     public ResultSet getChilds(Integer parentId) throws SQLException {
-        String title = "parentId,childId,status,creationDate\n";
-        ResultSet resultSet;
+        ResultSet resultSet = null;
         JdbcTemplate jdbcTemplate = Application.getJdbcTemplate();
         String sql = "SELECT * FROM Child WHERE parentId=? ";
 
@@ -50,6 +49,10 @@ public class Dml {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 System.out.println(getPrepareDataFromResultSetToStream(resultSet));
+            }
+        }finally {
+            if (resultSet != null) {
+                resultSet.close();
             }
         }
         return resultSet;

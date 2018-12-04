@@ -1,4 +1,4 @@
-use [idatest]
+USE [idatest]
 GO
 CREATE TYPE [dbo].[tblAType] AS TABLE(
 	[id] [int] NOT NULL,
