@@ -1,0 +1,6 @@
+#https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html
+
+### Test health cheack
+GET {{host}}:{{port}}/demo/test
+
+###
