@@ -60,6 +60,17 @@ public class ConfigurationDemo {
         Properties properties = new Properties();
         // The following two sections are needed to see hibernate values in the log
         properties.setProperty(FORMAT_SQL, String.valueOf(true));
+        // https://vladmihalcea.com/how-to-batch-insert-and-update-statements-with-hibernate/
+        properties.setProperty(STATEMENT_BATCH_SIZE, "3");
+//        properties.setProperty(DEFAULT_BATCH_FETCH_SIZE, "3");
+        // recommended hibernate.jdbc.fetch_size=1000  https://vladmihalcea.com/resultset-statement-fetching-with-jdbc-and-hibernate/
+//        properties.setProperty(STATEMENT_FETCH_SIZE, "3");
+//        properties.setProperty(ORDER_INSERTS, "true");
+        properties.setProperty(ORDER_UPDATES, "true");
+//     //???   properties.setProperty(CACHE_REGION_FACTORY
+//        properties.setProperty(USE_SECOND_LEVEL_CACHE, "true");
+//        properties.setProperty(USE_QUERY_CACHE, "true");
+//        properties.setProperty(USE_MINIMAL_PUTS, "true");
         properties.setProperty(SHOW_SQL, String.valueOf(true));
 //        properties.setProperty(USE_SQL_COMMENTS, String.valueOf(true));
         properties.setProperty(DIALECT, SQLServer2012Dialect.class.getTypeName());

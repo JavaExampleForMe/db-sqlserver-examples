@@ -3,6 +3,8 @@ package repositories;
 import enteties.Line;
 import enteties.Reservation;
 import enums.LineStatus;
+import org.hibernate.Session;
+import org.openjdk.jmh.annotations.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+
 public class LineRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public Reservation reservation;
 
     public Optional<Line> getLastLine() {
         String sql = "SELECT t FROM Line t ORDER BY t.creationDate DESC";
@@ -41,8 +46,6 @@ public class LineRepository {
     public void updateLine(Line line) {
         entityManager.merge(line);
     }
-
-
     public List<Line> getAllLines() {
         return entityManager.createQuery("FROM Line", Line.class)
                 .getResultList();
@@ -62,6 +65,21 @@ public class LineRepository {
         return line;
     }
 
+
+
+    @Transactional
+       public void createXLines() {
+        int newId = 660;//getNewId(reservation.getReservationId());
+ //       Session unwrap = entityManager.unwrap(Session.class);
+ //       unwrap.setJdbcBatchSize(10);
+        for (int i = 0; i < 200; i++) {
+            Line line = new Line(reservation, LineStatus.INQUEUE, "PEGOT" , "BLUE");
+            line.setLineId(newId++);
+            entityManager.persist(line);
+//            entityManager.flush();
+//            entityManager.clear();
+        }
+    }
 
     public Integer getNewId(Integer reservationId) {
         String sql = "SELECT MAX(j.linekey.lineId)+1 FROM Line j WHERE j.linekey.reservation.reservationId=:reservationId";

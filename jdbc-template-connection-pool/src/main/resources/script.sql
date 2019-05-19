@@ -49,31 +49,3 @@ GO
 
 ALTER TABLE [dbo].[Child] ADD  CONSTRAINT [DF_Child_creationDate]  DEFAULT (getutcdate()) FOR [creationDate]
 GO
-
-CREATE TABLE [dbo].[TestCsv](
-	[id] [int] NOT NULL,
-	[name] [nvarchar](100) NOT NULL,
- CONSTRAINT [PK_TestCsv] PRIMARY KEY CLUSTERED
-(
-	[id] ASC
-))
-GO
-
-CREATE TABLE [dbo].[DatesTbl](
-	[SearchTaskId] [int] NOT NULL,
-	[dtContactGMTStartTime] [datetime] NOT NULL,
-	[iArchiveID] [bigint] NOT NULL,
-	[BatchId] [int] NOT NULL,
-CONSTRAINT [PK_DatesTbl] PRIMARY KEY CLUSTERED
-(
-	[SearchTaskId] ASC,
-	[dtContactGMTStartTime] ASC,
-	[iArchiveID] ASC
-))
-GO
-INSERT INTO [DatesTbl]
-VALUES (1, '20020202 02:02:02.003', 1, 1),
-		(1, '20020202 02:02:02.007', 1, 1)
-GO
-
-

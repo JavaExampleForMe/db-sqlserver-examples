@@ -27,18 +27,13 @@
     <!--<logger name="org.hibernate.type.BasicTypeRegistry" level="ERROR" />-->
 
     <!-- The following two sections are needed to see hibernate values in the log -->
-    <logger name="org.hibernate.engine.jdbc.batch" additivity="false" >
-        <level value="DEBUG" />
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="CONSOLE" />
-    </logger>
     <logger name="org.hibernate.SQL" additivity="false" >
         <level value="DEBUG" />
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE" />
     </logger>
     <logger name="org.hibernate.type" additivity="false" >
-        <level value="DEBUG" />
+        <level value="TRACE" />
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE" />
     </logger>

@@ -11,11 +11,14 @@ public class RepositoriesContainer {
 
     private LineRepository lineRepository;
     private ReservationRepository reservationRepository;
+    private MyBenchmarkRepository myBenchmarkRepository;
 
     @Autowired
-    public RepositoriesContainer(LineRepository lineRepo, ReservationRepository reservationRepository) {
+    public RepositoriesContainer(LineRepository lineRepo, ReservationRepository reservationRepository, MyBenchmarkRepository myBenchmarkRepository) {
         this.lineRepository = lineRepo;
         this.reservationRepository = reservationRepository;
+        this.myBenchmarkRepository = myBenchmarkRepository;
+
     }
 
 

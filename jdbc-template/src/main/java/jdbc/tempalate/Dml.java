@@ -4,10 +4,16 @@ import com.microsoft.sqlserver.jdbc.SQLServerBulkCSVFileRecord;
 import com.microsoft.sqlserver.jdbc.SQLServerBulkCopy;
 import com.microsoft.sqlserver.jdbc.SQLServerBulkCopyOptions;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,11 +24,11 @@ public class Dml {
         StringBuilder queryBuilder = new StringBuilder();
 
         queryBuilder.append(" SELECT * FROM (\n" +
-                "SELECT 1 id, 'A' name, GETUTCDATE() creationDateTime\n" +
+                "SELECT 1 id, 'A' name, '20020202 02:02:02.003' creationDateTime\n" +
                 "UNION ALL\n" +
-                "SELECT 2 , 'B', GETUTCDATE()\n" +
+                "SELECT 2 , 'B', '20020202 02:02:02.006'\n" +
                 "UNION ALL\n" +
-                "SELECT 3 , 'C', GETUTCDATE()) A   ");
+                "SELECT 3 , 'C', '20020202 02:02:02.002') A   ");
 
         JdbcTemplate jdbcTemplate = Application.getJdbcTemplate();
 
@@ -106,4 +112,5 @@ public class Dml {
             }
         }
     }
+
 }

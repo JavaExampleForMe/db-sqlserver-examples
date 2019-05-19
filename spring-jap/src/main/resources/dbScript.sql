@@ -23,8 +23,8 @@ CREATE TABLE [dbo].[Line](
 	[lineStatus] [tinyint] NOT NULL,
 	[color] [varchar](50)  NULL,
 	[model] [varchar](50)  NULL,
-	[creationDate] [datetime] NOT NULL,
-	[modifyDate] [datetime] NOT NULL,
+	[creationDate] [datetime2] NOT NULL,
+	[modifyDate] [datetime2] NOT NULL,
  CONSTRAINT [PK_Line] PRIMARY KEY CLUSTERED
 (
 	[reservationId] ASC,
@@ -42,4 +42,26 @@ ALTER TABLE [dbo].[Line]  WITH CHECK ADD  CONSTRAINT [FK_Line_Reservation] FOREI
 REFERENCES [dbo].[Reservation] ([reservationId])
 ON DELETE CASCADE
 GO
+
+
+CREATE TABLE [dbo].[MyBenchmark](
+	[id] [int] NOT NULL,
+	[status] [tinyint] NOT NULL,
+	[color] [varchar](50)  NULL,
+	[model] [varchar](50)  NULL,
+	[creationDate] [datetime2] NOT NULL,
+	[modifyDate] [datetime2] NOT NULL,
+ CONSTRAINT [PK_Line] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+))
+GO
+
+-- CREATE TABLE [dbo].[DatesTbl](
+-- 	[creationDate] [datetime2] NOT NULL
+--  CONSTRAINT [PK_DatesTbl] PRIMARY KEY CLUSTERED
+-- (
+-- 	[creationDate] ASC
+-- ))
+-- GO
 
