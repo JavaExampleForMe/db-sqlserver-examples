@@ -13,8 +13,10 @@ CREATE PROCEDURE [dbo].[spToTest](
 	,@OutCounter   INT OUTPUT
 ) AS
 BEGIN
+    PRINT 'SP has started'
 	SET @OutCounter = @InCounter
 	SELECT * FROM @tblA
+    PRINT 'SP has ended'
 END
 GO
 

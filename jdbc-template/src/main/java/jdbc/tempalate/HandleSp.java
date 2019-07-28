@@ -11,6 +11,7 @@ import java.sql.SQLWarning;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,7 +20,8 @@ public class HandleSp {
     public int execSP(int input, List<TablA> rowsIn) throws SQLException {
         int actualoutput = -1;
         List<TablA> rowsout = new ArrayList<>();
-        System.out.println("execute stored procedure. ");
+        System.out.println("Executing stored procedure. example for input/output params and return select statement");
+        System.out.println("Input table type contains : " + Arrays.toString(rowsIn.toArray()));
 
         JdbcTemplate jdbcTemplate = Application.getJdbcTemplate();
 
@@ -48,6 +50,7 @@ public class HandleSp {
             printStoredProcedurePrintings(sqlCallableStatement);
             actualoutput = sqlCallableStatement.getInt(3);
             System.out.println("output parameter from stored procedure " +actualoutput );
+            System.out.println("output select results : " + Arrays.toString(rowsout.toArray()));
         } catch (SQLException e) {
             System.out.println("Failed to delete from the required tables in stored procedure - SQLErrorCode = " + e.getErrorCode() + " ex =" + e.getMessage());
             throw e;

@@ -24,11 +24,11 @@ public class Dml {
         StringBuilder queryBuilder = new StringBuilder();
 
         queryBuilder.append(" SELECT * FROM (\n" +
-                "SELECT 1 id, 'A' name, '20020202 02:02:02.003' creationDateTime\n" +
+                "SELECT 1 id, 'A' name, CONVERT(Datetime,'20020202 02:02:02.003') creationDateTime\n" +
                 "UNION ALL\n" +
-                "SELECT 2 , 'B', '20020202 02:02:02.006'\n" +
+                "SELECT 2 , 'B', CONVERT(Datetime,'20020202 02:02:02.006')\n" +
                 "UNION ALL\n" +
-                "SELECT 3 , 'C', '20020202 02:02:02.002') A   ");
+                "SELECT 3 , 'C', CONVERT(Datetime,'20020202 02:02:02.002')) A   ");
 
         JdbcTemplate jdbcTemplate = Application.getJdbcTemplate();
 
