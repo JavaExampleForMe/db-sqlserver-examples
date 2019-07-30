@@ -15,10 +15,25 @@ CREATE PROCEDURE [dbo].[spToTest](
 BEGIN
     PRINT 'SP has started'
 	SET @OutCounter = @InCounter
-	SELECT * FROM @tblA
+	SELECT * INTO #tblA FROM @tblA
+	SELECT TOP 1 @OutCounter=id FROM @tblA
+
+	SELECT * FROM @tblA UNION ALL SELECT * FROM @tblA
     PRINT 'SP has ended'
 END
 GO
+
+-- BEGIN TRANSACTION
+--  declare @OutCounter INT
+--  declare @tblA as [dbo].[tblAType]
+-- insert into @tblA (id, name, creationDateTime) values (1,'A', '19731013');
+-- insert into @tblA (id, name, creationDateTime) values (2,'B', '20150414');
+-- EXEC [dbo].spToTest
+--  @tblA=@tblA
+--  ,@InCounter = 3,@OutCounter=@OutCounter OUTPUT
+--  SELECT @OutCounter [OutCountert]
+--
+-- ROLLBACK TRANSACTION
 
 CREATE TABLE [dbo].[Parent](
 	[parentId] [int] NOT NULL IDENTITY,
