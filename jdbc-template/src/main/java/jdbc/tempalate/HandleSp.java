@@ -5,10 +5,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataTable;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Types;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,14 +23,24 @@ public class HandleSp {
         JdbcTemplate jdbcTemplate = Application.getJdbcTemplate();
 
         try (java.sql.Connection connection = jdbcTemplate.getDataSource().getConnection();
-             SQLServerCallableStatement sqlCallableStatement = (SQLServerCallableStatement) connection.prepareCall("EXEC [dbo].[spToTest] ?,?,?")) {
+             // Option 1 - preferred
+             SQLServerCallableStatement sqlCallableStatement = (SQLServerCallableStatement) connection.prepareCall("EXEC [dbo].[spToTest] ?,?,?");
+             // Option 2 - Needed when we have the dependency commons-dbcp:commons-dbcp:1.4 in classpath
+//            CallableStatement callableStatement = connection.prepareCall("EXEC [dbo].[spToTest] ?,?,?");
+//            DelegatingPreparedStatement dstmt = (DelegatingPreparedStatement) callableStatement;
+//            SQLServerCallableStatement sqlServerCallableStatement = (SQLServerCallableStatement) dstmt.getInnermostDelegate();
+        )
+        {
+
             SQLServerDataTable sqlServerDataTableParamInputTable = getDataTable(rowsIn);
 
             sqlCallableStatement.setStructured(1, "[dbo].[tblAType]", sqlServerDataTableParamInputTable);
             sqlCallableStatement.setInt(2, input);
             sqlCallableStatement.registerOutParameter(3, Types.INTEGER);
-            sqlCallableStatement.execute();
-            try(ResultSet resultSet = sqlCallableStatement.getResultSet()) {
+            ResultSet resultSet = null;
+            try {
+                sqlCallableStatement.execute();
+                resultSet = findResultSet(sqlCallableStatement);
 
                 while (resultSet!= null && resultSet.next()) {
                     rowsout.add( new TablA( resultSet.getInt("id"), resultSet.getString("name"), resultSet.getDate("creationDateTime")));
@@ -47,6 +54,11 @@ public class HandleSp {
                 System.out.println("Failed to delete from the required tables in stored procedure - SQLErrorCode = " + sqlException.getErrorCode() + " ex =" + sqlException.getMessage());
                 throw sqlException;
             }
+            finally {
+                if (!resultSet.isClosed()) {
+                    resultSet.close();
+                }
+            }
             printStoredProcedurePrintings(sqlCallableStatement);
             actualoutput = sqlCallableStatement.getInt(3);
             System.out.println("output parameter from stored procedure " +actualoutput );
@@ -58,6 +70,31 @@ public class HandleSp {
         }
         return actualoutput;
     }
+
+    /***
+     *The result of the stored procedure holds empty/irrelevant ResultSets (this is an known issue).
+     * The method finds the relevant ResultSet.
+     * Took an example from:
+     * https://programmaticponderings.com/2012/08/24/calling-sql-server-stored-procedures-with-java-using-jdbc/
+     * */
+    private ResultSet findResultSet(SQLServerCallableStatement sqlCallableStatement) throws SQLServerException {
+        int rowsAffected = 0;
+        ResultSet resultSet = null;
+        boolean resultSetExists = sqlCallableStatement.getResultSet() != null;
+
+        // Protects against lack of SET NOCOUNT in stored procedure
+        while (resultSetExists || rowsAffected != -1) {
+            if (resultSetExists) {
+                resultSet = sqlCallableStatement.getResultSet();
+                break;
+            } else {
+                rowsAffected = sqlCallableStatement.getUpdateCount();
+            }
+            resultSetExists = sqlCallableStatement.getMoreResults();
+        }
+        return resultSet;
+    }
+
 
     private void printStoredProcedurePrintings(SQLServerCallableStatement sqlCallableStatement) {
         // Print the debug information from the stored procedure
