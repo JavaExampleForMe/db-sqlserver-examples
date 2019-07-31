@@ -5,15 +5,15 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataTable;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.sql.*;
-import java.text.SimpleDateFormat;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class HandleSp {
-    String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public int execSP(int input, List<TablA> rowsIn) throws SQLException {
         int actualoutput = -1;
         List<TablA> rowsout = new ArrayList<>();
@@ -46,7 +46,7 @@ public class HandleSp {
                     rowsout.add( new TablA( resultSet.getInt("id"), resultSet.getString("name"), resultSet.getDate("creationDateTime")));
                 }
                 // if we pass this loop without exceptions, then the store procedure finished without errors. and we will get the procedure printings
-                while (!(sqlCallableStatement.getMoreResults() == false && sqlCallableStatement.getUpdateCount() == -1));
+                while (sqlCallableStatement.getMoreResults() || sqlCallableStatement.getUpdateCount() != -1);
 
             } catch (SQLException sqlException) {
                 printStoredProcedurePrintings(sqlCallableStatement);
@@ -55,7 +55,7 @@ public class HandleSp {
                 throw sqlException;
             }
             finally {
-                if (!resultSet.isClosed()) {
+                if (resultSet != null && !resultSet.isClosed()) {
                     resultSet.close();
                 }
             }
@@ -112,8 +112,6 @@ public class HandleSp {
 
     private SQLServerDataTable getDataTable(List<TablA> rowsIn) throws SQLException {
         System.out.println("get Data Table. rows count = " + rowsIn.size());
-        SimpleDateFormat df = new SimpleDateFormat(DATE_TIME_FORMAT, Locale.ENGLISH);
-
 
         SQLServerDataTable table = new SQLServerDataTable();
         table.addColumnMetadata("id", Types.BIGINT);
