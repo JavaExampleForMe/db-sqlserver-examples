@@ -1,0 +1,9 @@
+
+
+#database configuration
+database.name: myTestDB
+database.user: sa
+database.password: Nicecti1!
+database.server: localhost
+database.port: 1433
+
