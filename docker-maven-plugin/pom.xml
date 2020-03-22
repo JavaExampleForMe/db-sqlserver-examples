@@ -143,6 +143,13 @@
                             <goal>up</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>destroy-database</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>down</goal>
+                        </goals>
+                    </execution>
                 </executions>
                 <configuration>
                     <detachedMode>true</detachedMode>
